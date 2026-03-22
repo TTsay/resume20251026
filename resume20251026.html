@@ -102,9 +102,24 @@
 <body>
 
   <!-- 🎵 背景音樂 -->
-  <audio id="bgm" autoplay loop muted playsinline>
-    <source src="music/music.mp3" type="audio/mpeg">
-  </audio>
+<audio id="bgm" autoplay loop playsinline>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const audio = document.getElementById("bgm");
+
+  // 嘗試直接播放
+  audio.play().catch(() => {
+    // 若被擋，快速解除靜音再播放
+    audio.muted = true;
+    audio.play();
+
+    setTimeout(() => {
+      audio.muted = false;
+    }, 100);
+  });
+</script>
 
   <button class="theme-toggle" id="themeBtn">☀️</button>
 
@@ -146,24 +161,18 @@
   </div>
 
   <script>
-    const btn = document.getElementById("themeBtn");
-    btn.addEventListener("click", () => {
-      document.body.classList.toggle("dark");
-      btn.textContent = document.body.classList.contains("dark") ? "🌙" : "☀️";
-    });
+  const audio = document.getElementById("bgm");
 
-    // 🔥 強制嘗試播放音樂（避免瀏覽器阻擋）
-    window.addEventListener("load", () => {
-      const audio = document.getElementById("bgm");
+  // 嘗試直接播放
+  audio.play().catch(() => {
+    // 若被擋，快速解除靜音再播放
+    audio.muted = true;
+    audio.play();
+
+    setTimeout(() => {
       audio.muted = false;
-      audio.play().catch(() => {
-        // 若仍被阻擋，第一次點擊頁面時播放
-        document.addEventListener("click", () => {
-          audio.muted = false;
-          audio.play();
-        }, { once: true });
-      });
-    });
-  </script>
+    }, 100);
+  });
+</script>
 </body>
 </html>
